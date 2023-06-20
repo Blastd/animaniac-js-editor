@@ -1,0 +1,116 @@
+@import url('../assets/fonts/inter/inter.css');
+@import url('./constants.css');
+
+* {
+    font-family: 'Inter', sans-serif;
+    color: var(--txTitle);
+    box-sizing: border-box;
+}
+
+.scale {
+    min-width: 1rem;
+    min-height: 1rem;
+    max-width: 1rem;
+    max-height: 1rem;
+    position: absolute;
+    z-index: -1;
+}
+
+body, html {
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    background: var(--bgApp);
+}
+
+.app-main {
+    padding: var(--panelSeparator);
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 80mm;
+    grid-template-rows: 15mm auto 30mm;
+    row-gap: var(--panelSeparator);
+    column-gap: var(--panelSeparator);
+}
+
+.app-panel {
+    background-color: var(--bgEditorPanel);
+    border-radius: var(--panelSeparator);
+    overflow: hidden;
+}
+
+.app-panel-container {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--panelSeparator);
+}
+
+.app-panel-container>.app-lateral-toolbar {
+    width: 100%;
+}
+
+.app-lateral-toolbar {
+    border: 3px solid var(--panelStroke);
+    border-radius: var(--panelSeparator);
+    text-align: center;
+    overflow: hidden;
+}
+
+.app-toolbar {
+    display: flex;
+    align-items: center;
+    padding-left: 2mm;
+    gap: 5mm;
+    width: 100%;
+}
+
+.app-lateral-toolbar>.list-container,
+.app-lateral-toolbar{
+    display: flex;
+    flex-direction: column;
+}
+
+.app-lateral-toolbar>.list-container {
+    align-items: center;
+    overflow: hidden;
+}
+
+.toolbar-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1mm;
+    background-color: var(--panelStroke);
+    padding-bottom: 1mm;
+}
+
+.app-timeline {
+    grid-template-rows: 10mm auto;
+}
+
+.timeline-stage {
+    min-width: 100%;
+    min-height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: row;
+    gap: var(--rulerPos);
+    background: linear-gradient(90deg, var(--timeRulerBig) var(--rulerSizeBig), transparent 1px) 1px 0;
+    background-size: var(--rulerPosBig);
+}
+
+.small-ruler {
+    background: linear-gradient(90deg, var(--timeRuler) var(--rulerSize), transparent 1px) 1px 0;
+    background-blend-mode: screen;
+    background-size: var(--rulerPos);
+    mix-blend-mode: screen;
+    width: 100%;
+    height: 1rem;
+}
+
+.timeline-action {
+    background-color: #2F2F2F;
+}
