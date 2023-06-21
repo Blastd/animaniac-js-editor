@@ -16,12 +16,13 @@ function Timeline(props) {
         }
     }
 
+    let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
+    let rulePosBig = Math.ceil((5 * scale * currScale) * 10) / 10;
+    let rulePos = Math.ceil((scale * currScale) * 10) / 10;
+    let ruleMarkerSize = Math.ceil(scale * 10) / 10;
+    let durationWidth = (currScale * scale) + Math.ceil(((props.duration / 100)) * currScale * scale );
+
     useEffect (()=>{
-        let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
-        let rulePosBig = Math.ceil((5 * scale * currScale) * 10) / 10;
-        let rulePos = Math.ceil((scale * currScale) * 10) / 10;
-        let ruleMarkerSize = Math.ceil(scale * 10) / 10;
-        let durationWidth = Math.ceil(((1 + props.duration) / 100) * currScale * scale * 100) / 100;
         rulerBigRef.current.style.setProperty ("--rulerPosBig", rulePosBig + 'px');
         rulerRef.current.style.setProperty ("--rulerPos", rulePos + 'px');
         rulerBigRef.current.style.setProperty ("--rulerSize", ruleMarkerSize + 'px');
