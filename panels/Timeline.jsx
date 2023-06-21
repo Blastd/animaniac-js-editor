@@ -5,26 +5,29 @@ function Timeline(props) {
     let [scale, setScale] = useState (1);
     let rulerBigRef = useRef ();
     let rulerRef = useRef ();
-    const increaseValue = 0.2;
-    const maxValue = 2;
+    const increaseValue = 2;
+    const maxValue = 9;
 
     let wheelEvent = function (e) {
         if (e.deltaY > 0) {
-            setScale ((scale - increaseValue) <= 0.3 ? scale : Math.ceil((scale - increaseValue) * 10) / 10)
+            setScale ((scale - increaseValue) < 1 ? scale : scale - increaseValue)
         } else {
-            setScale ((scale + increaseValue) >= maxValue ? scale : Math.ceil((scale + increaseValue) * 10) / 10)
+            setScale ((scale + increaseValue) >= maxValue ? scale : scale + increaseValue)
         }
     }
 
     useEffect (()=>{
-        let currScale = document.querySelector ('.scale').clientWidth;
-        rulerBigRef.current.style.setProperty ("--rulerPosBig", (scale * currScale * 5) + 'px');
-        rulerRef.current.style.setProperty ("--rulerPos", (scale * currScale) + 'px');
-        rulerBigRef.current.style.setProperty ("--rulerSizeBig", (scale * 2) + 'px');
-        rulerRef.current.style.setProperty ("--rulerSize", (scale * 2) + 'px');
-
-        rulerRef.current.style.setProperty ("--durationWidth", (props.duration * currScale * scale) + 'px');
-        rulerBigRef.current.style.setProperty ("--durationWidth", (props.duration * currScale * scale) + 'px');
+        let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
+        let rulePosBig = Math.ceil((5 * scale * currScale) * 10) / 10;
+        let rulePos = Math.ceil((scale * currScale) * 10) / 10;
+        let ruleMarkerSize = Math.ceil(scale * 10) / 10;
+        let durationWidth = Math.ceil(((1 + props.duration) / 100) * currScale * scale * 100) / 100;
+        rulerBigRef.current.style.setProperty ("--rulerPosBig", rulePosBig + 'px');
+        rulerRef.current.style.setProperty ("--rulerPos", rulePos + 'px');
+        rulerBigRef.current.style.setProperty ("--rulerSize", ruleMarkerSize + 'px');
+        rulerRef.current.style.setProperty ("--rulerSize", ruleMarkerSize + 'px');
+        rulerRef.current.style.setProperty ("--durationWidth", durationWidth + 'px');
+        rulerBigRef.current.style.setProperty ("--durationWidth", durationWidth + 'px');
     })
 
     return (

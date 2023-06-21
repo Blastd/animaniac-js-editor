@@ -3,7 +3,7 @@ function durationEvaluation (value) {
     // If input is null
     if (value == null) { return NaN; }
     // Define regex for simple time expressions (Examples are: 1000ms, 10s, 20m, 4h)
-    const regex = /[0-9]+|ms|s|h|m/gm;
+    const regex = /-{0,1}[0-9]+|ms|s|h|m/gm;
     const matches = [];
     // Get matches
     while ((m = regex.exec(value)) !== null) {
@@ -37,6 +37,12 @@ function durationEvaluation (value) {
                 return NaN;
         }
         toReturn += number;
+    }
+
+    if (toReturn > 60 * 60 * 1000) {
+        toReturn = 60 * 60 * 1000;
+    } else if (toReturn < 1) {
+        toReturn = 1;
     }
     return toReturn;
 }

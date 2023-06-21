@@ -8,10 +8,11 @@
 }
 
 .scale {
-    min-width: 1rem;
-    min-height: 1rem;
-    max-width: 1rem;
-    max-height: 1rem;
+    --sz: 0.5rem;
+    min-width: var(--sz);
+    min-height: var(--sz);
+    max-width: var(--sz);
+    max-height: var(--sz);
     position: absolute;
     z-index: -1;
 }
