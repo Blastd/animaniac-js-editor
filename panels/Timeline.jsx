@@ -1,4 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
+import '../styles/timeline.css';
 
 function Timeline(props) {
     let [scale, setScale] = useState (1);
@@ -21,13 +22,18 @@ function Timeline(props) {
         rulerRef.current.style.setProperty ("--rulerPos", (scale * currScale) + 'px');
         rulerBigRef.current.style.setProperty ("--rulerSizeBig", (scale * 2) + 'px');
         rulerRef.current.style.setProperty ("--rulerSize", (scale * 2) + 'px');
+
+        rulerRef.current.style.setProperty ("--durationWidth", (props.duration * currScale * scale) + 'px');
+        rulerBigRef.current.style.setProperty ("--durationWidth", (props.duration * currScale * scale) + 'px');
     })
 
     return (
         <div className='app-panel app-timeline' style={{...props.style}} >
             <div className='timeline-action' style={{gridRow: 1}}>aaa</div>
-            <div className='timeline-stage' ref={rulerBigRef} style={{gridRow: 2}} onWheel={wheelEvent}>
-                <div className="small-ruler" ref={rulerRef}></div>
+            <div className="timeline-overflow">
+                <div className='timeline-stage' ref={rulerBigRef} style={{gridRow: 2}} onWheel={wheelEvent}>
+                    <div className="small-ruler" ref={rulerRef}></div>
+                </div>
             </div>
         </div>
     );

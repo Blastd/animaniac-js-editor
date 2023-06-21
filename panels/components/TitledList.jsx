@@ -14,7 +14,7 @@ function TitledList(props) {
                 {isOpen ? <MdExpandLess/> : <MdExpandMore/>}
                 <span>{props.title}</span>
                 </div>
-            <Rnd className='list-container' style={{position: 'block'}} disableDragging={true}
+            <Rnd className='list-container' style={{position: 'block', display: 'flex'}} disableDragging={true}
                 enableResizing={{top: false, bottom: true, left: false, right: false}}
                 default={{x: 0, y: 27, height: 200}} size={{height: isOpen ? height : 0}} minHeight={5} maxHeight={window.innerHeight / 3.7}
                 onResizeStart={()=>setOpen(true)}
@@ -25,7 +25,7 @@ function TitledList(props) {
                     } else {
                         setHeight(ref.style.height)
                     }}}>
-                {props.children}
+                {isOpen ? props.children : null}
             </Rnd>
         </div>
     )

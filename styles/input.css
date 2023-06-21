@@ -1,0 +1,19 @@
+@import url('../assets/fonts/inter/inter.css');
+@import url('./constants.css');
+
+.property-input {
+    padding: 0.5mm 2mm;
+    display: flex;
+    gap: 2mm;
+}
+
+.property-input>input {
+    background-color: var(--inBck);
+    border: 2px solid var(--timeRuler);
+    border-radius: var(--panelSeparator);
+    outline: none;
+}
+
+.property-input>input:focus{
+    border: 2px solid var(--highlight);
+}
