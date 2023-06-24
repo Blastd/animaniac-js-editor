@@ -37,16 +37,13 @@
 .timeline-stage {
     width: var(--durationWidth);
     min-height: 100%;
-    background: linear-gradient(90deg, var(--timeRulerBig) var(--rulerSize), transparent 1px) 1px 0;
-    background-size: var(--rulerPosBig);
-}
-
-.small-ruler {
-    width: var(--durationWidth);
-    height: 1rem;
-    background: linear-gradient(90deg, var(--timeRuler) var(--rulerSize), transparent 1px) 1px 0;
-    background-size: var(--rulerPos);
-    mix-blend-mode: screen;
+    height: 100%;
+    background: url('../assets/images/ruler.svg');
+    background-size: var(--rulerPos) cover;
+    background-position: 0% 0%;
+    background-repeat: repeat-x;
+    transform-origin: top left;
+    transform: scale(var(--rulerTf), 1);
 }
 
 .timeline-action {

@@ -3,40 +3,34 @@ import '../styles/timeline.css';
 
 function Timeline(props) {
     let [scale, setScale] = useState (1);
-    let rulerBigRef = useRef ();
     let rulerRef = useRef ();
-    const increaseValue = 2;
-    const maxValue = 9;
+    const increaseValue = 1;
+    const maxValue = 30;
 
     let wheelEvent = function (e) {
         if (e.deltaY > 0) {
-            setScale ((scale - increaseValue) < 1 ? scale : scale - increaseValue)
+            setScale ((scale - increaseValue) < 0 ? scale : scale - increaseValue)
         } else {
             setScale ((scale + increaseValue) >= maxValue ? scale : scale + increaseValue)
         }
     }
 
     let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
-    let rulePosBig = Math.ceil((5 * scale * currScale) * 10) / 10;
-    let rulePos = Math.ceil((scale * currScale) * 10) / 10;
-    let ruleMarkerSize = Math.ceil(scale * 10) / 10;
-    let durationWidth = (currScale * scale) + Math.ceil(((props.duration / 100)) * currScale * scale );
+    let rulePos = Math.ceil((5 * currScale) * 10) / 10;
+    let durationWidth = (currScale) + Math.ceil(((props.duration / 100)) * currScale );
 
     useEffect (()=>{
-        rulerBigRef.current.style.setProperty ("--rulerPosBig", rulePosBig + 'px');
         rulerRef.current.style.setProperty ("--rulerPos", rulePos + 'px');
-        rulerBigRef.current.style.setProperty ("--rulerSize", ruleMarkerSize + 'px');
-        rulerRef.current.style.setProperty ("--rulerSize", ruleMarkerSize + 'px');
+        rulerRef.current.style.setProperty ("--rulerTf", 1 + (scale / 10));
         rulerRef.current.style.setProperty ("--durationWidth", durationWidth + 'px');
-        rulerBigRef.current.style.setProperty ("--durationWidth", durationWidth + 'px');
     })
 
     return (
         <div className='app-panel app-timeline' style={{...props.style}} >
             <div className='timeline-action' style={{gridRow: 1}}>aaa</div>
-            <div className="timeline-overflow">
-                <div className='timeline-stage' ref={rulerBigRef} style={{gridRow: 2}} onWheel={wheelEvent}>
-                    <div className="small-ruler" ref={rulerRef}></div>
+            <div className="timeline-overflow" onWheel={wheelEvent}>
+                <div className='timeline-stage' ref={rulerRef} style={{gridRow: 2}}>
+                    {props.children}
                 </div>
             </div>
         </div>
