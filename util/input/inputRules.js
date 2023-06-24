@@ -47,10 +47,28 @@ function durationEvaluation (value) {
     return toReturn;
 }
 
+/**
+ * @param {Number} value duration in milliseconds
+ */
+function durationToTime (value) {
+    let hours = Math.trunc(((value / 1000) / 60) / 60);
+    let minutes = Math.trunc((value / 1000) / 60) % 60;
+    let seconds = Math.trunc(value / 1000) % 60;
+    let milliseconds = value % 1000;
+    // 66000 = 66 seconds
+    let timeText = function (value, singular, plural, useConjunction) {
+        return Math.trunc(value) == 0 ? '' : ` ${useConjunction ? 'e ' : ''} ${value} ${value > 1 ? plural : singular}`;
+    };
+    return  timeText (hours, 'ora', 'ore', false) + 
+            timeText (minutes, 'minuto', 'minuti', Math.trunc(hours) !== 0) + 
+            timeText (seconds, 'secondo', 'secondi', Math.trunc(minutes) !== 0) + 
+            timeText (milliseconds, 'millisecondo', 'millisecondi', Math.trunc(seconds) !== 0);
+}
+
 function getNumber (value, min, max) {
     let basic = (value != null && parseFloat(value));
     let advanced = (min != null && max != null && (value >= min || value <= max)) || basic;
     return (basic && advanced) ? parseFloat(value) : NaN;
 }
 
-module.exports = {durationEvaluation, getNumber}
+module.exports = {durationEvaluation, getNumber, durationToTime}

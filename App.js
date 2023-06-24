@@ -5,13 +5,12 @@ import ToolbarButton from './panels/components/ToolbarButton';
 import { MdAddAlarm, MdPersonAdd, MdCode } from 'react-icons/md';
 import Timeline from './panels/Timeline';
 import Numeric from './panels/components/inputs/Numeric';
-import {durationEvaluation} from './util/input/inputRules';
+import {durationEvaluation, durationToTime} from './util/input/inputRules';
 
 function App() {
 
   let [isPlaying, setPlaying] = useState (false);
   let [isReverse, setReverse] = useState (false);
-  let [dur, setDur] = useState (NaN);
   
   let [project, setProject] = useState({
     animationProps: {
@@ -23,12 +22,6 @@ function App() {
     let backup = {...project};
     backup.animationProps[key] = value;
     setProject (backup);
-  }
-
-  function setDurationText (value) {
-    let nmb = durationEvaluation (value);
-    console.log(nmb);
-    setDur (nmb);
   }
 
   return (
@@ -43,11 +36,9 @@ function App() {
             <a>asass</a>
           </TitledList>
           <TitledList title={"Animation"}>
-            <Numeric label={"Duration"} min={0} max={50000} default={project.animationProps.duration}
-              property={'duration'} change={setProjectProps}/>
-            <input type={'text'} onChange={(e)=>{setDurationText(e.target.value)}}></input>
-            <p>{project.animationProps.duration}</p>
-            <p>{dur}</p>
+            <Numeric label={"Duration"} min={1000} max={50000} increment={10} action={durationEvaluation} default={project.animationProps.duration}
+              property={'duration'} change={setProjectProps}
+              interpreter={durationToTime}/>
           </TitledList>
           <TitledList title={"Properties"}>
             <a>asass</a>
