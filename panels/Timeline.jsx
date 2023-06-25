@@ -19,11 +19,20 @@ function Timeline(props) {
             setScale ((scale + increaseValue) >= maxValue ? scale : scale + increaseValue)
         }
     }
-
+    // Calcoliamo a quanto corrisponde 1/5 di secondo
+    let decimalScale = (1+(scale/10));
+    // Recuperiamo la scala di 0.5rem in px
     let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
-    let rulePos = Math.ceil((5 * currScale) * 10) / 10;
-    let durationWidth = (currScale) + Math.ceil(((props.duration / 100)) * currScale );
+    // Calcoliamo a quanto corrisponde 1 secondo (0.5rem * 5) in px scalati
+    let widthPerSecond = (Math.ceil((5 * currScale) * 10) / 10) * decimalScale; // 5 = 5 segmenti tra 1 decina e 4 unità
+    // Recuperiamo quanti quinti di secondo avremmo
+    let durationCount = Math.floor(((props.duration / 100)));
+    // Recuperiamo quanti px avremmo (px per 1/5 di secondo scalato * tot quinti di secondi)
+    let durationWidth = (currScale * decimalScale) * durationCount;
+    // Calcoliamo quanti px si deve spostare il cursore in modo da selezionare il dato corretto
     let offsetPx = cursor * durationWidth;
+
+    console.log(decimalScale, currScale, widthPerSecond, durationCount, durationWidth, offsetPx);
 
     let clickCursor = function (e) {
         cursorAction (e);
@@ -37,12 +46,13 @@ function Timeline(props) {
     let cursorAction = function (e) {
         if (!e.target.className.includes('timeline-stage')) { return; }
         let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
-        let durationWidth = (currScale) + Math.ceil(((props.duration / 100)) * currScale );
+        let durationWidth = Math.ceil(((props.duration / 100)) * currScale );
         let bounds = e.target.getBoundingClientRect();
         let actualCoordinateX = e.clientX + e.target.scrollLeft - bounds.left;
         let actualScale = 1 + (scale / 10);
         let width = durationWidth * actualScale; // Actual width in px * current scale
-        setCursor (actualCoordinateX / width);
+        let cursorPos = actualCoordinateX / width;
+        setCursor (cursorPos);
     };
 
     let scrollToCursor = function (e) {
@@ -52,8 +62,7 @@ function Timeline(props) {
     };
 
     useEffect (()=>{
-        rulerRef.current.style.setProperty ("--rulerPos", rulePos + 'px');
-        rulerRef.current.style.setProperty ("--rulerTf", 1 + (scale / 10));
+        rulerRef.current.style.setProperty ("--secondsWidth", widthPerSecond + 'px');
         rulerRef.current.style.setProperty ("--durationWidth", durationWidth + 'px');
         cursorRef.current.style.setProperty ("--cursorOffset", offsetPx + 'px');
         cursorRef.current.style.setProperty ("--cursorTf", 1/ (1 + (scale / 10)));
