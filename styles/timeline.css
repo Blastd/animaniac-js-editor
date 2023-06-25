@@ -1,6 +1,10 @@
 @import url('../assets/fonts/inter/inter.css');
 @import url('./constants.css');
 
+:root{
+    --actionHover: #606060;
+}
+
 ::-webkit-scrollbar {
     height: 10px;
     transition-duration: 120ms;
@@ -47,6 +51,36 @@
 }
 
 .timeline-action {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 5px;
     background-color: #2F2F2F;
     height: 7.5mm;
+}
+
+.timeline-cursor {
+    max-width: .25rem;
+    height: 100%;
+    background: var(--timeRuler);
+    transform: translateX(var(--cursorOffset)) translateX(-50%);
+    border-radius: .125rem;
+}
+
+.action-cursor {
+    cursor: crosshair;
+}
+
+.timeline-action>.action {
+    border-radius: 5px;
+    padding: 0.3mm 0.6mm;
+    font-weight: 400;
+    font-size: 10pt;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.timeline-action>.action:hover {
+    background-color: var(--actionHover);
 }

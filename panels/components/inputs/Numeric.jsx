@@ -43,10 +43,10 @@ function Numeric(props) {
 
     return (
         <div className='property-input' style={{...props.style}}>
-            <label>{props.label}</label>
+            <label className='input-label'>{props.label}</label>
             <input ref={inputRef} type={'text'} min={props.min} max={props.max} step={props.increment ?? 2} value={value}
              onChange={changeEvent} onBlur={keyEvent} onKeyDown={keyEvent}></input>
-            {props.interpreter && (<label>{interpreted}</label>)}
+            {props.interpreter && (<label className='input-interpreted'>{interpreted}</label>)}
         </div>
     );
 }

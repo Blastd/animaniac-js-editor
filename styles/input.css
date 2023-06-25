@@ -5,6 +5,7 @@
     padding: 0.5mm 2mm;
     display: flex;
     gap: 2mm;
+    align-items: center;
 }
 
 .property-input>input {
@@ -12,8 +13,15 @@
     border: 2px solid var(--timeRuler);
     border-radius: var(--panelSeparator);
     outline: none;
+    width: 60%;
 }
 
 .property-input>input:focus{
     border: 2px solid var(--highlight);
+}
+
+.property-input>.input-interpreted,
+.property-input>.input-label {
+    font-weight: 300;
+    font-size: small;
 }
