@@ -11,16 +11,37 @@ function App() {
 
   let [isPlaying, setPlaying] = useState (false);
   let [isReverse, setReverse] = useState (false);
-  
+  let [elements, setElements] = useState ([]);
+
   let [project, setProject] = useState({
     animationProps: {
       duration: 3000
+    },
+    workspace: {
+      cursor: 0,
+      element: -1
     }
   })
 
-  function setProjectProps (key, value) {
+  /**
+   * Sets a project property
+   * @param {String} key param's name
+   * @param {Object} value param's value
+   */
+  function setAnimationProps (key, value) {
     let backup = {...project};
     backup.animationProps[key] = value;
+    setProject (backup);
+  }
+
+  /**
+   * Sets a workspace property
+   * @param {String} key param's name
+   * @param {Object} value param's value
+   */
+  function setWorkspaceProps (key, value) {
+    let backup = {...project};
+    backup.workspace[key] = value;
     setProject (backup);
   }
 
@@ -36,15 +57,15 @@ function App() {
             <a>asass</a>
           </TitledList>
           <TitledList title={"Animation"}>
-            <Numeric label={"Duration"} min={1000} max={50000} increment={10} action={durationEvaluation} default={project.animationProps.duration}
-              property={'duration'} change={setProjectProps}
+            <Numeric label={"Duration"} min={1000} max={3600000} increment={10} action={durationEvaluation} default={project.animationProps.duration}
+              property={'duration'} change={setAnimationProps}
               interpreter={durationToTime}/>
           </TitledList>
           <TitledList title={"Properties"}>
-            <a>asass</a>
+            <a>Cursor @ {project.workspace.cursor}</a>
           </TitledList>
         </div>
-        <Timeline duration={project.animationProps.duration} style={{gridRow: 3}}/>
+        <Timeline duration={project.animationProps.duration} change={setWorkspaceProps} cursor={'cursor'} project={project} style={{gridRow: 3}}/>
     </div>
   );
 }

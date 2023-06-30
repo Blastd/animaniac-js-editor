@@ -4,7 +4,7 @@ import {MdNearMe} from 'react-icons/md';
 
 function Timeline(props) {
     let [scale, setScale] = useState (1);
-    let [cursor, setCursor] = useState (1);
+    let [cursor, setCursor] = useState (0);
     let [isCursorDown, setCursorDown] = useState(false);
     let rulerRef = useRef ();
     let cursorRef = useRef ();
@@ -53,6 +53,7 @@ function Timeline(props) {
         let width = durationWidth * actualScale; // Actual width in px * current scale
         let cursorPos = actualCoordinateX / width;
         setCursor (cursorPos);
+        props.change(props.cursor, cursorPos);
     };
 
     let scrollToCursor = function (e) {
