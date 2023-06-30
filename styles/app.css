@@ -86,3 +86,7 @@ body, html {
     background-color: var(--panelStroke);
     padding-bottom: 1mm;
 }
+
+.interactable {
+    border-radius: 5mm;
+}

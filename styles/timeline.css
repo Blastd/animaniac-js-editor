@@ -2,7 +2,7 @@
 @import url('./constants.css');
 
 :root{
-    --actionHover: #606060;
+    --actionHover: #7d7d7d;
 }
 
 ::-webkit-scrollbar {
@@ -69,7 +69,6 @@
 
 .action-cursor {
     cursor: crosshair;
-    pointer-events: none;
 }
 
 .timeline-action>.action {
@@ -82,6 +81,7 @@
     user-select: none;
 }
 
-.timeline-action>.action:hover {
+.action:hover {
+    border: 1px solid white;
     background-color: var(--actionHover);
 }

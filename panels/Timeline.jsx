@@ -58,7 +58,7 @@ function Timeline(props) {
     let scrollToCursor = function (e) {
         let currScale = Math.ceil(document.querySelector ('.scale').clientWidth);
         let durationWidth = (currScale) + Math.ceil(((props.duration / 100)) * currScale );
-        rulerOverflow.current.scrollTo ({left: (cursor * durationWidth * (1 + (scale / 10))) + (currScale * .25), behavior: 'smooth'});
+        rulerOverflow.current.scrollTo ({left: (cursor * durationWidth * (1 + (scale / 10))) - (currScale), behavior: 'smooth'});
     };
 
     useEffect (()=>{
