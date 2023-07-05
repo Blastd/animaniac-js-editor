@@ -6,6 +6,7 @@ import { MdAddAlarm, MdPersonAdd, MdCode } from 'react-icons/md';
 import Timeline from './panels/Timeline';
 import Numeric from './panels/components/inputs/Numeric';
 import {durationEvaluation, durationToTime} from './util/input/inputRules';
+import ACanvas from './panels/components/ACanvas';
 
 function App() {
 
@@ -15,7 +16,9 @@ function App() {
 
   let [project, setProject] = useState({
     animationProps: {
-      duration: 3000
+      duration: 3000,
+      width: 1280,
+      height: 768
     },
     workspace: {
       cursor: 0,
@@ -52,6 +55,7 @@ function App() {
           <ToolbarButton><MdPersonAdd size={30}/></ToolbarButton>
           <ToolbarButton><MdCode size={30}/></ToolbarButton>
         </Toolbar>
+        <ACanvas animation={project.animationProps}/>
         <div className='app-panel app-panel-container' style={{gridRowStart:1, gridRowEnd: 4}}>
           <TitledList title={"Elements"}>
             <a>asass</a>
@@ -60,6 +64,10 @@ function App() {
             <Numeric label={"Duration"} min={1000} max={3600000} increment={10} action={durationEvaluation} default={project.animationProps.duration}
               property={'duration'} change={setAnimationProps}
               interpreter={durationToTime}/>
+            <Numeric label={"Width"} min={1000} max={3840} increment={10} default={project.animationProps.width}
+              property={'width'} change={setAnimationProps}/>
+            <Numeric label={"Height"} min={1000} max={3840} increment={10} default={project.animationProps.height}
+              property={'height'} change={setAnimationProps}/>
           </TitledList>
           <TitledList title={"Properties"}>
             <a>Cursor @ {project.workspace.cursor}</a>

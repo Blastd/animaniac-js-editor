@@ -1,13 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import Toolbar from './panels/Toolbar';
-import TitledList from './panels/components/TitledList';
-import ToolbarButton from './panels/components/ToolbarButton';
-import { MdAddAlarm, MdPersonAdd, MdCode } from 'react-icons/md';
-import Timeline from './panels/Timeline';
-import Numeric from './panels/components/inputs/Numeric';
-import {durationEvaluation, durationToTime} from './util/input/inputRules';
+import React, {useEffect, useState, useRef} from 'react';
+import '../../styles/canvas.css';
 
-export default function ACanvas() {
+export default function ACanvas(props) {
 
     let [scrollX, setScrollX] = useState(0);
     let [scrollY, setScrollY] = useState(0);
@@ -15,31 +9,35 @@ export default function ACanvas() {
     let canvasRef = useRef();
     const increaseValue = 1;
     const maxValue = 30;
+    const minValue = -5;
 
-    let actualScale = 1 + (zoom / 10);
-    let width = props.width;
-    let height = props.width;
-
+    let actualScale = 1 + (scale / 10);
+    let width = props.animation.width;
+    let height = props.animation.height;
+    let uiWidth = width * actualScale;
+    let uiHeight = height * actualScale;
     useEffect(()=>{
-        canvasRef.current.style.setProperty('--canvasLeft', scrollX);
-        canvasRef.current.style.setProperty('--canvasTop', scrollY);
-        canvasRef.current.style.setProperty('--canvasScale', zoom);
-        canvasRef.current.style.setProperty('--canvasWidth', width);
-        canvasRef.current.style.setProperty('--canvasHeight', height);
+        canvasRef.current.style.setProperty('--canvasLeft', scrollX  + 'px');
+        canvasRef.current.style.setProperty('--canvasTop', scrollY   + 'px');
+        canvasRef.current.style.setProperty('--canvasScale', actualScale   + 'px');
+        canvasRef.current.style.setProperty('--canvasWidth', uiWidth   + 'px');
+        canvasRef.current.style.setProperty('--canvasHeight', uiHeight + 'px');
     });
 
     let wheelEvent = function (e) {
-        if (!e.ctrlKey) return;
+        if (e.altKey != true) return;
         if (e.deltaY > 0) {
-            setScale ((scale - increaseValue) < 0 ? scale : scale - increaseValue)
+            setScale ((scale - increaseValue) < minValue ? scale : scale - increaseValue)
         } else {
             setScale ((scale + increaseValue) >= maxValue ? scale : scale + increaseValue)
         }
     }
 
     return (
-        <div ref={canvasRef} onWheel={wheelEvent}>
+        <div className="canvas-container">
+            <div ref={canvasRef} className='canvas-element' onWheel={wheelEvent}>
             
+            </div>
         </div>
     )
 }

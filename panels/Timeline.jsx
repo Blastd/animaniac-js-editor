@@ -13,6 +13,7 @@ function Timeline(props) {
     const maxValue = 30;
 
     let wheelEvent = function (e) {
+        if (e.altKey != true) return;
         if (e.deltaY > 0) {
             setScale ((scale - increaseValue) < 0 ? scale : scale - increaseValue)
         } else {
@@ -30,9 +31,7 @@ function Timeline(props) {
     // Recuperiamo quanti px avremmo (px per 1/5 di secondo scalato * tot quinti di secondi)
     let durationWidth = (currScale * decimalScale) * durationCount;
     // Calcoliamo quanti px si deve spostare il cursore in modo da selezionare il dato corretto
-    let offsetPx = cursor * durationWidth;
-
-    console.log(decimalScale, currScale, widthPerSecond, durationCount, durationWidth, offsetPx);
+    let offsetPx = cursor * durationWidth; 
 
     let clickCursor = function (e) {
         cursorAction (e);
