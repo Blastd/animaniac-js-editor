@@ -15,3 +15,13 @@
     background-image:  radial-gradient(var(--gridPoints) 0.5px, transparent 0.5px), radial-gradient(var(--gridPoints) 0.5px, var(--bgApp) 0.5px);
     background-size: calc(var(--canvasScale) * 10) calc(var(--canvasScale) * 10 );
 }
+
+.stage-item {
+    width: fit-content;
+    width: fit-content;
+    transform-origin: 0 0;
+    position: relative;
+    left: var(--posX);
+    top: var(--posY);
+    transform: scale(var(--scale));
+}

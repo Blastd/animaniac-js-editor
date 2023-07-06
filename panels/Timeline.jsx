@@ -13,12 +13,15 @@ function Timeline(props) {
     const maxValue = 30;
 
     let wheelEvent = function (e) {
-        if (e.altKey != true) return;
+        if (e.shiftKey) return;
         if (e.deltaY > 0) {
             setScale ((scale - increaseValue) < 0 ? scale : scale - increaseValue)
         } else {
             setScale ((scale + increaseValue) >= maxValue ? scale : scale + increaseValue)
         }
+        e.preventDefault ();
+        e.stopPropagation();
+        return false;
     }
     // Calcoliamo a quanto corrisponde 1/5 di secondo
     let decimalScale = (1+(scale/10));

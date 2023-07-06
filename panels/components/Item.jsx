@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
+import '../../styles/canvas.css';
 
 function ToolbarButton(props) {
     return (
