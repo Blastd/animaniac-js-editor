@@ -6,6 +6,7 @@ export default function ACanvas(props) {
 
     let [scrollX, setScrollX] = useState(0);
     let [scrollY, setScrollY] = useState(0);
+    let [panning, setPanning] = useState(false);
     let [scale, setScale] = useState(1);
     let canvasRef = useRef();
     const increaseValue = 1;
@@ -46,9 +47,25 @@ export default function ACanvas(props) {
         return wheelEvent (e);
     }
 
+    let panStart = (e) => {
+        setPanning (true);
+        e.preventDefault();
+    }
+
+    let panEnd = (e) => {
+        setPanning (false);
+        e.preventDefault();
+    }
+
+    let panMove = (e) => {
+        if (!panning) return;
+        setScrollX (scrollX + e.movementX);
+        setScrollY (scrollY + e.movementY);
+    }
+
     return (
         <div className="canvas-container">
-            <div ref={canvasRef} className='canvas-element' onWheelCapture={preventWheel}>
+            <div ref={canvasRef} className='canvas-element' onWheelCapture={preventWheel} onPointerDown={panStart} onPointerUp={panEnd} onPointerLeave={panEnd} onBlur={panEnd} onPointerMove={panMove}>
                 <StageItem item={object} zoom={actualScale}/>
             </div>
         </div>

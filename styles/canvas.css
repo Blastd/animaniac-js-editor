@@ -2,7 +2,7 @@
 @import url('./constants.css');
 
 .canvas-container {
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .canvas-element {
@@ -10,6 +10,8 @@
     position: relative;
     width: var(--canvasWidth);
     height: var(--canvasHeight);
+    top: var(--canvasTop);
+    left: var(--canvasLeft);
     border-radius: var(--panelSeparator);
     background-color: var(--bgApp);
     background-image:  radial-gradient(var(--gridPoints) 0.5px, transparent 0.5px), radial-gradient(var(--gridPoints) 0.5px, var(--bgApp) 0.5px);
@@ -18,10 +20,14 @@
 
 .stage-item {
     width: fit-content;
-    width: fit-content;
     transform-origin: 0 0;
     position: relative;
     left: var(--posX);
     top: var(--posY);
     transform: scale(var(--scale));
+    padding: 10mm;
+}
+
+.stage-item.active {
+    outline: 1px dashed white;
 }

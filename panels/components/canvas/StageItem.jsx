@@ -14,7 +14,7 @@ export default function StageItem (props) {
     });
 
     return (
-        <div className="stage-item" ref={itemRef}>
+        <div className={"stage-item " + (selected ? "active" : "")} ref={itemRef} onClick={()=>setSelected(true)}>
             <img src={object.imgPath}/>
         </div>
     )
