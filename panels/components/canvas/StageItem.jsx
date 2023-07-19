@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import '../../../styles/canvas.css';
 
 export default function StageItem (props) {
-    let [selected, setSelected] = useState (false);
 
     let itemRef = useRef ();
     let object = props.item;
@@ -13,9 +12,14 @@ export default function StageItem (props) {
         itemRef.current.style.setProperty ('--scale', props.zoom);
     });
 
+    let onSelect = (e) =>{
+        props.selectAction (props.id);
+        e.stopPropagation();
+    }
+
     return (
-        <div className={"stage-item " + (selected ? "active" : "")} ref={itemRef} onClick={()=>setSelected(true)}>
-            <img src={object.imgPath}/>
+        <div className={"stage-item " + (props.selected == props.id ? "active" : "")} ref={itemRef} onClick={onSelect}>
+            <img src={object.path}/>
         </div>
     )
 }
