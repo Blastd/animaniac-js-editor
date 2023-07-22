@@ -50,15 +50,20 @@ export default function ACanvas(props) {
 
     let panEnd = (e) => {
         setPanning (false);
+        setDown (false);
         e.preventDefault();
     }
 
+    /**
+     * Moves the item
+     * @param {PointerEvent} e 
+     */
     let panMove = (e) => {
         if (panning) {
             setScrollX (scrollX + e.movementX);
             setScrollY (scrollY + e.movementY);
         } else if (isDown && props.workspace.selectedItem != null) {
-            props.setElementPosition ((e.movementX) / actualScale, (e.movementY) / actualScale);
+            props.setElementPosition ((e.movementX) / actualScale, (e.movementY) / actualScale, e.shiftKey);
         }
     }
 
