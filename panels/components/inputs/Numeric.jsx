@@ -4,7 +4,7 @@ import '../../../styles/input.css';
 function Numeric(props) {
 
     let [interpreted, setInterpreted] = useState('');
-    let [value, setValue] = useState(props.default);
+    let [value, setValue] = useState(null);
 
     let inputRef = useRef();
 
@@ -44,7 +44,7 @@ function Numeric(props) {
     return (
         <div className='property-input' style={{...props.style}}>
             <label className='input-label'>{props.label}</label>
-            <input ref={inputRef} type={'text'} min={props.min} max={props.max} step={props.increment ?? 2} value={value}
+            <input ref={inputRef} type={props.simple ? 'number' : 'text'} min={props.min} max={props.max} step={props.increment ?? 2} value={value ?? props.default}
              onChange={changeEvent} onBlur={keyEvent} onKeyDown={keyEvent}></input>
             {props.interpreter && (<label className='input-interpreted'>{interpreted}</label>)}
         </div>

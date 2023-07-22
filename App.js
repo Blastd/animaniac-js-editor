@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import Toolbar from './panels/Toolbar';
 import TitledList from './panels/components/TitledList';
 import ToolbarButton from './panels/components/ToolbarButton';
@@ -82,22 +82,50 @@ function App() {
     setElements (backup);
   }
 
+  /**
+   * 
+   * @param {Number} deltaX 
+   * @param {Number} deltaY 
+   * @param {Boolean} isOrigin 
+   */
   function setElementPosition (deltaX, deltaY, isOrigin) {
     let backup = {...elements};
     let element = backup[project.workspace.selectedItem]
     if (isOrigin) {
-      element.position.x += deltaX;
-      element.position.y += deltaY;
+      element.position.x = Number(isNaN(element.position.x) ? 0 : element.position.x) + Number(deltaX);
+      element.position.y += Number(isNaN(element.position.y) ? 0 : element.position.y) + Number(deltaY);
     } else {
       if (element.pending.position == null) {
         element.pending.position = {...element.position};
       }
-      element.pending.position.x += deltaX;
-      element.pending.position.y += deltaY;
+      element.pending.position.x = Number(isNaN(element.pending.position.x) ? 0 : element.pending.position.x) + Number(deltaX);
+      element.pending.position.y = Number(isNaN(element.pending.position.y) ? 0 : element.pending.position.y) + Number(deltaY);
     }
     
     setElements (backup);
   }
+
+  function setElementPositionField (property, value, isOrigin) {
+    switch (property) {
+      case 'x':
+        setElementPosition (value, 0, isOrigin);
+        break;
+      case 'y':
+        setElementPosition (0, value, isOrigin);
+        break;
+    }
+  }
+
+  function setElementPositionPending (property, value) {
+    setElementPositionField (property, value, false);
+  }
+
+  function setElementPositionOrigin (property, value) {
+    setElementPositionField (property, value, true);
+  }
+
+  let item = project.workspace.selectedItem == null ? null : elements[project.workspace.selectedItem];
+  let itemPendingPosition = item == null ? null : item.pending.position;
 
   return (
     <div className='app-main'>
@@ -116,14 +144,25 @@ function App() {
             <Numeric label={"Duration"} min={1000} max={3600000} increment={10} action={durationEvaluation} default={project.animationProps.duration}
               property={'duration'} change={setAnimationProps}
               interpreter={durationToTime}/>
-            <Numeric label={"Width"} min={1000} max={3840} increment={10} default={project.animationProps.width}
+            <Numeric label={"Width"} simple={true} min={1000} max={3840} increment={10} default={project.animationProps.width}
               property={'width'} change={setAnimationProps}/>
-            <Numeric label={"Height"} min={1000} max={3840} increment={10} default={project.animationProps.height}
+            <Numeric label={"Height"} simple={true} min={1000} max={3840} increment={10} default={project.animationProps.height}
               property={'height'} change={setAnimationProps}/>
               <a>{JSON.stringify(project.workspace)}</a>
           </TitledList>
           <TitledList force={project.workspace.selectedItem == null ? false : null } title={"Properties"}>
-            
+            {project.workspace.selectedItem != null && (
+              <Fragment>
+                <Numeric label={"X origine"} simple={true} min={0} max={3840} increment={10} default={elements[project.workspace.selectedItem].position.x}
+                  property={'x'} change={setElementPositionOrigin}/>
+                <Numeric label={"Y origine"} simple={true} min={0} max={3840} increment={10} default={elements[project.workspace.selectedItem].position.y}
+                  property={'y'} change={setElementPositionOrigin}/>
+                <Numeric label={"X"} simple={true} min={0} max={3840} increment={10} default={itemPendingPosition == null ? 0 : itemPendingPosition.x}
+                  property={'x'} change={setElementPositionPending}/>
+                <Numeric label={"Y"} simple={true} min={0} max={3840} increment={10} default={itemPendingPosition == null ? 0 : itemPendingPosition.y}
+                  property={'y'} change={setElementPositionPending}/>
+              </Fragment>
+            )}
           </TitledList>
         </div>
         <Timeline duration={project.animationProps.duration} collection={elements} change={setWorkspaceProps} cursor={'cursor'} project={project} style={{gridRow: 3}}/>
