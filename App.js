@@ -74,6 +74,20 @@ function App() {
     setProject (backup);
   }
 
+  function setElementProps (id, key, value) {
+    let backup = {...elements};
+    backup[id][key] = value;
+    setElements (backup);
+  }
+
+  function setElementPosition (deltaX, deltaY) {
+    let backup = {...elements};
+    let element = backup[project.workspace.selectedItem]
+    element.position.x += deltaX;
+    element.position.y += deltaY;
+    setElements (backup);
+  }
+
   return (
     <div className='app-main'>
         <Toolbar style={{gridRow: 1, gridColumn: 1}}>
@@ -81,7 +95,8 @@ function App() {
           <ToolbarButton><MdPersonAdd size={30}/></ToolbarButton>
           <ToolbarButton><MdCode size={30}/></ToolbarButton>
         </Toolbar>
-        <ACanvas animation={project.animationProps} workspace={project.workspace} collection={elements} selectAction={selectItem}/>
+        <ACanvas animation={project.animationProps} workspace={project.workspace} 
+          collection={elements} setElementProps={setElementProps} setElementPosition={setElementPosition} selectAction={selectItem}/>
         <div className='app-panel app-panel-container' style={{gridRowStart:1, gridRowEnd: 4}}>
           <TitledList title={"Elements"}>
             <a>asass</a>
@@ -94,9 +109,10 @@ function App() {
               property={'width'} change={setAnimationProps}/>
             <Numeric label={"Height"} min={1000} max={3840} increment={10} default={project.animationProps.height}
               property={'height'} change={setAnimationProps}/>
+              <a>{JSON.stringify(project.workspace)}</a>
           </TitledList>
-          <TitledList title={"Properties"}>
-            <a>{JSON.stringify(project.workspace)}</a>
+          <TitledList force={project.workspace.selectedItem == null ? false : null } title={"Properties"}>
+            
           </TitledList>
         </div>
         <Timeline duration={project.animationProps.duration} change={setWorkspaceProps} cursor={'cursor'} project={project} style={{gridRow: 3}}/>

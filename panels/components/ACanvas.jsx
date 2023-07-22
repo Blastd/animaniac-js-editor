@@ -7,6 +7,7 @@ export default function ACanvas(props) {
     let [scrollX, setScrollX] = useState(0);
     let [scrollY, setScrollY] = useState(0);
     let [panning, setPanning] = useState(false);
+    let [isDown, setDown] = useState (false);
     let [scale, setScale] = useState(1);
     let canvasRef = useRef();
     const increaseValue = 1;
@@ -19,11 +20,11 @@ export default function ACanvas(props) {
     let uiWidth = width * actualScale;
     let uiHeight = height * actualScale;
     useEffect(()=>{
-        canvasRef.current.style.setProperty('--canvasLeft', scrollX  + 'px');
-        canvasRef.current.style.setProperty('--canvasTop', scrollY   + 'px');
-        canvasRef.current.style.setProperty('--canvasScale', actualScale   + 'px');
-        canvasRef.current.style.setProperty('--canvasWidth', uiWidth   + 'px');
-        canvasRef.current.style.setProperty('--canvasHeight', uiHeight + 'px');
+        canvasRef.current.style.setProperty('--canvasLeft', scrollX       + 'px');
+        canvasRef.current.style.setProperty('--canvasTop', scrollY        + 'px');
+        canvasRef.current.style.setProperty('--canvasScale', actualScale  + 'px');
+        canvasRef.current.style.setProperty('--canvasWidth', uiWidth      + 'px');
+        canvasRef.current.style.setProperty('--canvasHeight', uiHeight    + 'px');
     });
 
     let wheelEvent = function (e) {
@@ -53,21 +54,22 @@ export default function ACanvas(props) {
     }
 
     let panMove = (e) => {
-        if (!panning) return;
-        setScrollX (scrollX + e.movementX);
-        setScrollY (scrollY + e.movementY);
+        if (panning) {
+            setScrollX (scrollX + e.movementX);
+            setScrollY (scrollY + e.movementY);
+        } else if (isDown && props.workspace.selectedItem != null) {
+            props.setElementPosition ((e.movementX) / actualScale, (e.movementY) / actualScale);
+        }
     }
 
-    let tempID = "saodjdojd-sdfsdf-sadfsdafasdfsdf23r2f23";
     return (
         <div className="canvas-container" onPointerMove={panMove} onPointerLeave={panEnd}>
             <div ref={canvasRef} className='canvas-element' onWheelCapture={preventWheel} onPointerDown={panStart} onPointerUp={panEnd} onBlur={panEnd} onClick={()=>props.selectAction(null)}>
                 {
                     Object.keys(props.collection).map((id, index)=> {
-                        return (<StageItem selectAction={props.selectAction} id={id} key={index} selected={props.workspace.selectedItem} item={props.collection[id]} zoom={actualScale}/>)
+                        return (<StageItem selectAction={props.selectAction} setDown={setDown} isDown={isDown} onItemMove={null} id={id} key={index} selected={props.workspace.selectedItem} item={props.collection[id]} zoom={actualScale}/>)
                     })
                 }
-                {/*  */}
             </div>
         </div>
     )
